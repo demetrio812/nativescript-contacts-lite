@@ -98,6 +98,19 @@ exports.convertNativeCursorToContact = (c,fields) => {
     if (!contact.hasOwnProperty('nickname')) { contact.nickname = []; }
     contact.nickname.push(record);
   }
+  
+  /* birthday */ 
+
+  if (fields.indexOf("birthday") > -1) {
+      var dateComponent = getiOSValue("birthday", c);
+      if (dateComponent) {
+        var record = {};
+        record.year = dateComponent.year;
+        record.month = dateComponent.month;
+        record.day = dateComponent.day;
+        contact.birthday = record;
+      }
+  }
 
   /* note */
 
@@ -177,6 +190,7 @@ exports.getIOSQueryColumns = (fields) => {
   if (fields.indexOf('email') > -1) { columnsToFetch.push("emailAddresses"); }
   if (fields.indexOf('address') > -1) { columnsToFetch.push("postalAddresses"); }
   if (fields.indexOf('nickname') > -1) { columnsToFetch.push("nickname"); }
+  if (fields.indexOf('birthday') > -1) { columnsToFetch.push("birthday"); }
   if (fields.indexOf('organization') > -1) { columnsToFetch.push("jobTitle", "departmentName", "organizationName"); }
   if (fields.indexOf('note') > -1) { columnsToFetch.push("notes"); }
   if (fields.indexOf('photo') > -1) { columnsToFetch.push(CNContactImageDataAvailableKey, CNContactImageDataKey); }
